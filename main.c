@@ -98,12 +98,18 @@ float totalTurnaroundtime;
 
 
 int main(int argc, char *argv[]) {
-    printf("argument 1: %s\n", argv[0]);
+
+    char *nameOfFile = argv[1];
+    //printf("name of file: %s\n", nameOfFile);
+
     if(argc <2){
-        printf("more arguments!\n");
-    }else{
-        printf("that's better\n");
+        printf("You must pass a file as a command line argument, please try again.\nFor example: ./run.sh file.txt\n");
+        exit(0);
+    }else if (argc>2){
+        printf("You can only pass one file to the program, please try again.\nFor example: ./run.sh file.txt\n");
+        exit(0);
     }
+
 
     FILE *fp;
     char numOfProcess;
@@ -111,7 +117,7 @@ int main(int argc, char *argv[]) {
 
     // WARNING, REMOVE THE ../ before file.txt otherwise the program will not compile properly!!!!
     // add it back for it to run properly within CLion
-    fp = fopen("file.txt", "r");// remove the ../
+    fp = fopen(nameOfFile, "r");// remove the ../
     if(fp){
         numOfProcess = fgetc(fp);
         int numProcess = numOfProcess -48; // digits start at 48 so could also to numOfProcess = 48.
