@@ -325,3 +325,4 @@ void SRT(int numProcess) {
     printf("Average Turnaround time = %.2lf\n",tt/n);
 
 }
+//This is a comment to check my git commits
