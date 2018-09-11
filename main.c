@@ -1,6 +1,18 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+
+
+void checkFileArg(numOfArgs){
+    if(numOfArgs <2){
+        printf("You must pass a file as a command line argument, please try again.\nFor example: ./run.sh file.txt\n");
+        exit(0);
+    }else if (numOfArgs>2){
+        printf("You can only pass one file to the program, please try again.\nFor example: ./run.sh file.txt\n");
+        exit(0);
+    }
+}
+
 struct record {
     long pid;
     long arrival;
@@ -27,6 +39,7 @@ void checkProcessingTime(long processTime){
     }
 }
 
+void FCFS(int numProcess);
 void SRT(int numProcess);
 
 
@@ -99,25 +112,17 @@ float totalTurnaroundtime;
 
 int main(int argc, char *argv[]) {
 
-    char *nameOfFile = argv[1];
-    //printf("name of file: %s\n", nameOfFile);
+    char *nameOfFile = argv[1]; //takes the argument passed to the program
 
-    if(argc <2){
-        printf("You must pass a file as a command line argument, please try again.\nFor example: ./run.sh file.txt\n");
-        exit(0);
-    }else if (argc>2){
-        printf("You can only pass one file to the program, please try again.\nFor example: ./run.sh file.txt\n");
-        exit(0);
-    }
+    //backup file argument checker in case user doesn't run shell script(they may have a 'main' if
+    //they previously compiled)
+    checkFileArg(argc);
 
 
     FILE *fp;
     char numOfProcess;
 
-
-    // WARNING, REMOVE THE ../ before file.txt otherwise the program will not compile properly!!!!
-    // add it back for it to run properly within CLion
-    fp = fopen(nameOfFile, "r");// remove the ../
+    fp = fopen(nameOfFile, "r");
     if(fp){
         numOfProcess = fgetc(fp);
         int numProcess = numOfProcess -48; // digits start at 48 so could also to numOfProcess = 48.
@@ -135,43 +140,28 @@ int main(int argc, char *argv[]) {
             char *values = line; // the string to parse
             char *end;
             long PID = strtol(values, &end, 10);
-            // end now is a pointer to the first character that wasn't parsed into the long
-            // note, in particular, that it is still a C string
-            long Arrival = strtol(end + 1, &end, 10); // use +1 to go past the ,
+            long Arrival = strtol(end + 1, &end, 10); // uses +1 to go past the ,
             long ProcessingTime = strtol(end + 1, &end, 10);
-            //new_process(PID, Arrival, ProcessingTime);
-            //printf("%li %li %li\n" , PID, Arrival, ProcessingTime);
-
-
             pid[i] = PID;
             arrival[i] = Arrival;
             processing[i] = ProcessingTime;
             // end getting items.
 
-
             checkProcessingTime(processing[i]);
             checkDup(sizeof(pid[i]), pid);
 
-
-
             //get total processing time;
             totalprotime += ProcessingTime;
-            //printf("total pro time: %li\n", totalprotime);
-
-
 
             //check which arrived first, WORKING!//the running list is important for the quicksort
             if(arrival[i] < arrival[i-1] || arrival[i] == 0 ) {
                 runningFirst = pid[i];
-                //runningList[i] = PID;
-                //printf("this arrival of: %li arrived before: %li\n", arrival[i], arrival[i-1]);
-                //printf("running in if statement: %li\n", runningFirst);
             }
             if (PID <= numProcess) {
                 runningList[i] = arrival[i];
                 }
-
-            }
+        }
+        FCFS(numProcess);
 
         // don't delete this yet, helpful for bug checking
         /*
@@ -182,72 +172,12 @@ int main(int argc, char *argv[]) {
          */
         //
 
-
         struct record array[numProcess];
         for(int i=0;i<numProcess;i++) {
             array[i].pid = pid[i];
             array[i].arrival = arrival[i];
             array[i].processing = processing[i];
         }
-
-
-
-        //this sorts by arrival and then prints the results!!! working.
-        struct str objects[numProcess];
-        for(int i=0;i<numProcess;i++)
-        {
-            objects[i].value=runningList[i];
-            objects[i].index=i;
-        }
-        //sort objects array according to value maybe using qsort
-        qsort(objects,numProcess,sizeof(objects[0]),cmp);
-
-        int time = 0;
-        float waitingTime = 0.0;
-        float timewaiting[100];
-        float turnaroundTime[100];
-        float avTurnaroundTime = 0.0;
-        printf("\nFCFS\nTime\tPID\n");
-
-
-            for (int i = 0; i < numProcess; i++) {
-                int correct = objects[i].index;
-                //printf("%d \n", objects[i].index+1);//will give correct order
-                //printf("%d\t%li\n", i, objects[i].index);
-                for (int j = 0; j < array[correct].processing; j++) {
-                    printf("%d\t%li\n", time, array[correct].pid);
-                    time++;
-                    array[correct].timestarted = time  - j;
-                    array[correct].timefinished = time;
-
-
-                }
-            }
-         //end FCFS sort and print.
-
-         for (int i = 0; i < numProcess;i++){
-
-             timewaiting[i] = array[i].timestarted - array[i].arrival - 1;
-             //printf("time waiting for process %d: %.2f\n", i+1, timewaiting[i]);
-             totaltimewaiting = timewaiting[i]+ totaltimewaiting;
-             waitingTime = totaltimewaiting/(sizeof(timewaiting[i])-1);
-
-
-         }
-         printf("Average waiting time: %.2f\n", waitingTime);
-
-
-         //calculate turnaround time (finish time - arrival time)...total time from arrival until completition)
-        for (int i = 0; i < numProcess;i++){
-            turnaroundTime[i] = array[i].timefinished - array[i].arrival;
-            //printf("turnaround time for process %d: %.2f\n", i, turnaroundTime[i]);
-            totalTurnaroundtime = turnaroundTime[i] + totalTurnaroundtime;
-            avTurnaroundTime = totalTurnaroundtime/(sizeof(turnaroundTime[i])-1);
-
-        }
-        printf("Average turnaround time: %.2f\n", avTurnaroundTime);
-
-
 
         // SHORTEST RESPONSE TIME NEXT
         SRT(numProcess);
@@ -262,16 +192,71 @@ int main(int argc, char *argv[]) {
         // timer = 0;
 
 
-
-
-
         fclose(fp);
         return 0;
     }
-
     return 0;
 }
 
+void FCFS(int numProcess){
+    struct record array[numProcess];
+    for(int i=0;i<numProcess;i++) {
+        array[i].pid = pid[i];
+        array[i].arrival = arrival[i];
+        array[i].processing = processing[i];
+    }
+
+    struct str objects[numProcess];
+    for(int i=0;i<numProcess;i++)
+    {
+        objects[i].value=runningList[i];
+        objects[i].index=i;
+    }
+    //sort objects array according to value maybe using qsort
+    qsort(objects,numProcess,sizeof(objects[0]),cmp);
+
+    int time = 0;
+    float waitingTime = 0.0;
+    float timewaiting[100];
+    float turnaroundTime[100];
+    float avTurnaroundTime = 0.0;
+    printf("\nFCFS\nTime\tPID\n");
+
+
+    for (int i = 0; i < numProcess; i++) {
+        int correct = objects[i].index;
+        for (int j = 0; j < array[correct].processing; j++) {
+            printf("%d\t%li\n", time, array[correct].pid);
+            time++;
+            array[correct].timestarted = time  - j;
+            array[correct].timefinished = time;
+
+
+        }
+    }
+    for (int i = 0; i < numProcess;i++){
+
+        timewaiting[i] = array[i].timestarted - array[i].arrival - 1;
+        //printf("time waiting for process %d: %.2f\n", i+1, timewaiting[i]);
+        totaltimewaiting = timewaiting[i]+ totaltimewaiting;
+        waitingTime = totaltimewaiting/(sizeof(timewaiting[i])-1);
+
+
+    }
+    printf("Average waiting time: %.2f\n", waitingTime);
+
+
+    //calculate turnaround time (finish time - arrival time)...total time from arrival until completition)
+    for (int i = 0; i < numProcess;i++){
+        turnaroundTime[i] = array[i].timefinished - array[i].arrival;
+        //printf("turnaround time for process %d: %.2f\n", i, turnaroundTime[i]);
+        totalTurnaroundtime = turnaroundTime[i] + totalTurnaroundtime;
+        avTurnaroundTime = totalTurnaroundtime/(sizeof(turnaroundTime[i])-1);
+
+    }
+    printf("Average turnaround time: %.2f\n", avTurnaroundTime);
+
+}
 
 void SRT(int numProcess) {
 
