@@ -189,14 +189,7 @@ int main(int argc, char *argv[]) {
         // SHORTEST RESPONSE TIME NEXT
         SRT(numProcess);
 
-
-
         // ROUND ROBIN
-        // quantum of 2
-        // each process gets 2 time units to complete and then the pid swaps to the next arrived pid.
-        // remember_processtime[] = array[].processing;
-        // wt[] = 0;
-        // timer = 0;
         RR(numProcess, 2);
         RR(numProcess, 4);
 
@@ -421,14 +414,14 @@ void RR(int numProcess, int quantum){
     int i,j,n,time,remain,flag=0,ts;
     ts = quantum;
     int sum_wait=0,sum_turnaround=0,at[10],bt[10],rt[10],pn[10];
-    printf("Enter no of Processes : ");
-    scanf("%d",&n);
+    n = numProcess;
     remain=n;
+
     for(i=0;i<n;i++) {
-        printf("Enter  arrival time and burst time for Process P%d :",i+1);
+        //printf("Enter  arrival time and burst time for Process P%d :",i+1);
         pn[i] = i;
-        scanf("%d",&at[i]);
-        scanf("%d",&bt[i]);
+        at[i] = array[i].arrival;
+        bt[i] = array[i].processing;
         rt[i]=bt[i];
     }
     for(i = 0;i<n;i++){
@@ -461,8 +454,8 @@ void RR(int numProcess, int quantum){
             i=0;
         }
     }
-    printf("\nAvg sum_wait = %f\n",sum_wait*1.0/n);
-    printf("Avg sum_turnaround = %f",sum_turnaround*1.0/n);
+    printf("\nAvg sum_wait = %.2f\n",sum_wait*1.0/n);
+    printf("Avg sum_turnaround = %.2f\n",sum_turnaround*1.0/n);
 
 
 
