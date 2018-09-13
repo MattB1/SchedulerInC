@@ -2,7 +2,9 @@
 #include<stdlib.h>
 
 
-
+/*
+ * This function checks that the correct amount of arguments have been passed to the program
+ */
 void checkFileArg(numOfArgs){
     if(numOfArgs <2){
         printf("You must pass a file as a command line argument, please try again.\nFor example: ./run.sh file.txt\n");
@@ -22,9 +24,9 @@ struct record {
     long remaining;
 };
 
-
-
-
+/*
+ * Function checks that the number of processess is an integer
+ */
 void checkNumberofProcesses(int numProcess){
     if (numProcess != 0 && numProcess != 1 && numProcess != 2 && numProcess != 3 && numProcess != 4
         && numProcess != 5 && numProcess != 6 && numProcess != 7 && numProcess != 8 && numProcess != 9){
@@ -35,6 +37,9 @@ void checkNumberofProcesses(int numProcess){
 
 }
 
+/*
+ * Function to check that the processing times are all greater than one.
+ */
 void checkProcessingTime(long processTime){
     if (processTime < 1) {
         printf("A Process has a runtime of less than 1\nProgram will exit\n");
@@ -44,8 +49,9 @@ void checkProcessingTime(long processTime){
 }
 
 
-
-
+/*
+ * Function to check there are no duplicate processing id's
+ */
 void checkDup(long size, long pid[] ){
     long k=0;
     long l = 0;
@@ -62,6 +68,10 @@ void checkDup(long size, long pid[] ){
 
 }
 
+
+/*
+ * Struct holds a value and index for the comparison
+ */
 struct str
 {
     float value;int index;
@@ -75,54 +85,33 @@ int cmp(const void *a,const void *b)
     else return 0;
 }
 
+
 void FCFS(int numProcess);
 void SRT(int numProcess);
 void RR(int numProcess, int quantum);
 
-
-
-
-
-
-
-
 long runningFirst = 1;
 int counter = 1;
-
-
-
 char array[100];
-
-
 long totalprotime = 0;
-
-
 long pid[100];
 long arrival[100];
 long processing[100];
-
 long runningList[1];
 long runningSecond = 0;
-
 long timewaitingforPro2;
 float totaltimewaiting;
 float totalTurnaroundtime;
-
-
-
-
-
-
-
-
 
 
 int main(int argc, char *argv[]) {
 
     char *nameOfFile = argv[1]; //takes the argument passed to the program
 
-    //backup file argument checker in case user doesn't run shell script(they may have a 'main' if
-    //they previously compiled)
+    /*
+     * backup file argument checker in case user doesn't run shell script(they may have a 'main' if
+     * they previously compiled)
+     */
     checkFileArg(argc);
 
     FILE *fp;
@@ -131,13 +120,10 @@ int main(int argc, char *argv[]) {
     fp = fopen(nameOfFile, "r");
     if(fp){
         numOfProcess = fgetc(fp);
-        int numProcess = numOfProcess -48; // digits start at 48 so could also to numOfProcess = 48.
-        //printf("%d\n",numProcess);
+        int numProcess = numOfProcess -48; // digits start at 48
         checkNumberofProcesses(numProcess);
         fgetc(fp);
-
         char line[100]; // here you can use char *line=malloc(100);
-
         //get line
         //split line
         //save a struct with the three values.
@@ -167,16 +153,8 @@ int main(int argc, char *argv[]) {
                 runningList[i] = arrival[i];
                 }
         }
+        // FIRST COME FIRST SERVE
         FCFS(numProcess);
-
-        // don't delete this yet, helpful for bug checking
-        /*
-        printf("total time: %li\n", totalprotime);
-        for(int i =0;i<numProcess;i++) {
-            printf("running list: %li\n", runningList[i]);
-        }
-         */
-        //
 
         struct record array[numProcess];
         for(int i=0;i<numProcess;i++) {
@@ -192,7 +170,6 @@ int main(int argc, char *argv[]) {
         // ROUND ROBIN
         RR(numProcess, 2);
         RR(numProcess, 4);
-
 
         fclose(fp);
         return 0;
@@ -238,7 +215,6 @@ void FCFS(int numProcess){
     for (int i = 0; i < numProcess;i++){
 
         timewaiting[i] = array[i].timestarted - array[i].arrival - 1;
-        //printf("time waiting for process %d: %.2f\n", i+1, timewaiting[i]);
         totaltimewaiting = timewaiting[i]+ totaltimewaiting;
         waitingTime = totaltimewaiting/(sizeof(timewaiting[i])-1);
 
@@ -246,13 +222,11 @@ void FCFS(int numProcess){
     }
     printf("Average waiting time: %.2f\n", waitingTime);
 
-    //calculate turnaround time (finish time - arrival time)...total time from arrival until completion)
+    //calculate turnaround time (finish time - arrival time)
     for (int i = 0; i < numProcess;i++){
         turnaroundTime[i] = array[i].timefinished - array[i].arrival;
-        //printf("turnaround time for process %d: %.2f\n", i, turnaroundTime[i]);
         totalTurnaroundtime = turnaroundTime[i] + totalTurnaroundtime;
         avTurnaroundTime = totalTurnaroundtime/(sizeof(turnaroundTime[i])-1);
-
     }
     printf("Average turnaround time: %.2f\n", avTurnaroundTime);
 

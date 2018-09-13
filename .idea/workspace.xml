@@ -12,9 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9eae5f0b-d13c-440f-90a9-88f32d8e7da7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/filey.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main" beforeDir="false" afterPath="$PROJECT_DIR$/main" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -53,16 +52,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="c" value="33456" />
+          <entry key="c" value="33889" />
           <entry key="sh" value="220" />
-          <entry key="txt" value="347" />
+          <entry key="txt" value="389" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Bash" value="122" />
-          <entry key="ObjectiveC" value="33456" />
-          <entry key="PLAIN_TEXT" value="430" />
+          <entry key="ObjectiveC" value="33889" />
+          <entry key="PLAIN_TEXT" value="472" />
           <entry key="Scratch" value="15" />
         </counts>
       </usages-collector>
@@ -71,14 +70,14 @@
           <entry key="Makefile" value="1" />
           <entry key="c" value="3" />
           <entry key="sh" value="2" />
-          <entry key="txt" value="6" />
+          <entry key="txt" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeCache.txt" value="1" />
           <entry key="ObjectiveC" value="3" />
-          <entry key="PLAIN_TEXT" value="6" />
+          <entry key="PLAIN_TEXT" value="7" />
           <entry key="Scratch" value="2" />
         </counts>
       </usages-collector>
@@ -89,8 +88,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-736">
-              <caret line="316" lean-forward="true" selection-start-line="316" selection-end-line="316" />
+            <state relative-caret-position="360">
+              <caret line="24" column="2" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -134,6 +133,15 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -149,6 +157,7 @@
         <option value="$PROJECT_DIR$/run.sh" />
         <option value="$PROJECT_DIR$/file.txt" />
         <option value="$PROJECT_DIR$/filey.txt" />
+        <option value="$PROJECT_DIR$/tests.txt" />
         <option value="$PROJECT_DIR$/main.c" />
       </list>
     </option>
@@ -237,12 +246,12 @@
       <workItem from="1535960856315" duration="55953000" />
       <workItem from="1536372908780" duration="48298000" />
       <workItem from="1536643196535" duration="1210000" />
-      <workItem from="1536644532055" duration="31018000" />
+      <workItem from="1536644532055" duration="32217000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="136479000" />
+    <option name="totallyTimeSpent" value="137678000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="132" y="22" width="1400" height="776" extended-state="0" />
@@ -260,7 +269,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.32894737" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.29678363" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32017544" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32894737" />
       <window_info anchor="bottom" id="CMake" order="12" weight="0.32894737" />
@@ -333,10 +342,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-736">
-          <caret line="316" lean-forward="true" selection-start-line="316" selection-end-line="316" />
+        <state relative-caret-position="360">
+          <caret line="24" column="2" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>
