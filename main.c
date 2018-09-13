@@ -338,111 +338,53 @@ void RR(int numProcess, int quantum){
     //sort objects array according to value maybe using qsort
     qsort(objects,numProcess,sizeof(objects[0]),cmp);
 
-    /*for (int i = 0; i < numProcess; i++) {
-        int correct = objects[i].index;
-        for (int j = 0; j < array[correct].processing; j++) {
-            printf("%d\t%li\n", time, array[correct].pid);
-            time++;
-            array[correct].timestarted = time  - j;
-            array[correct].timefinished = time;
 
 
-        }
-    }*/
-
-    //have a priority list. lowest 'array[i].pid' to highest
-    //have a queue [PID 3: 1, PID 1: 2, PID 2: 3]
-    //print first in queue for qantum
-    //when qantum is over check if another pid has arrived
-        //if one has check whether it's pid is lower or high than current
-        //if one hasn't then print the current pid for it's remaining processing time.
-    /*int remaining;
-    int current;
-    int time = 0;
-    quantum = 2;
-    int remainingTime[100];
-
-
-        for (int i = 0; i < numProcess; i++) {
-            array[i].remaining = array[i].processing;
-            //printf("remaining[%d] = %d\n", i, array[i].remaining);
-        }
-        for (int i = 0; i < numProcess; i++) {
-            remaining = array[i].remaining;
-            current = array[i].pid;
-            //printf("array[%d].remaining = %d\n", i, remaining);
-            for (int k = remaining; k > 0; k--) {
-                remaining = remaining-1;
-                for (int p = 0; p<2; p++){
-                    printf("current: %d\n", current);
-
-
-                    }
-                    if(remaining>0){
-                        current = array[i+1].pid;
-                    }else if(remaining==0){
-
-                    }
-
-                }
-                printf("printing remaining of pid[%d]: %d\n", current, remaining);
-                time++;
-            }*/
-
-
-
-
-
-
-
-
-
-
-        int priority[100];
-
-    /*or(int i = 0; i<numProcess; i++){
-        priority[i] = array[i].pid;
-        printf("priority[%d] = %d\n", i, priority[i]);
-        printf("%d\t%li\n", i, array[objects[i].index].pid);
-        //if(priority[i]
-    }*/
-    //for(int i = 0; i< remaining[i]; i++) {
-
-
-
-
-    int i,j,n,time,remain,flag=0,ts;
+    int i,n,time,remain,flag=0,ts;
     ts = quantum;
     int sum_wait=0,sum_turnaround=0,at[10],bt[10],rt[10],pn[10];
     n = numProcess;
     remain=n;
 
     for(i=0;i<n;i++) {
-        //printf("Enter  arrival time and burst time for Process P%d :",i+1);
         pn[i] = i;
         at[i] = array[i].arrival;
         bt[i] = array[i].processing;
         rt[i]=bt[i];
     }
-    for(i = 0;i<n;i++){
-        printf("%d\n", pn[i]);
-    }
-    //printf("Enter time slice");
-    //scanf("%d",&ts);
-    printf("\n\nProcess\t|Turnaround time|waiting time\n\n");
+
+    printf("\nRR(%d)\nTime\tPID\n", quantum);
     for(time=0,i=0;remain!=0;){
         if(rt[i]<=ts && rt[i]>0){
+            if(rt[i] <2) {
+                printf("%d\t%d\n", time, array[i].pid);
+            }else{
+                if(quantum ==2){
+                printf("%d\t%d\n%d\t%d\n", time, array[i].pid, time+1, array[i].pid);
+                }
+                if(quantum ==4){
+                printf("%d\t%d\n%d\t%d\n", time, array[i].pid, time+1, array[i].pid);
+                }
+            }
             time+=rt[i];
             rt[i]=0;
             flag=1;
         } else if(rt[i]>0){
             rt[i]-=ts;
+            if(quantum ==2){
+                printf("%d\t%d\n%d\t%d\n", time, array[i].pid, time+1, array[i].pid);
+            }
+            if(quantum ==4){
+                printf("%d\t%d\n%d\t%d\n", time+quantum-4, array[i].pid, time+quantum-3, array[i].pid);
+                printf("%d\t%d\n%d\t%d\n", time+quantum-2, array[i].pid, time+quantum-1, array[i].pid);
+            }
             time+=ts;
+            //printf("%d\t%d\n%d\t%d\n", time-1, array[i].pid, time, array[i].pid);
         }
 
         if(rt[i]==0 && flag==1){
             remain--;
-            printf("P[%d]\t|\t%d\t|\t%d\n",i+1,time-at[i],time-at[i]-bt[i]);
+            //printf("P[%d]\t|\t%d\t|\t%d\n",i+1,time-at[i],time-at[i]-bt[i]);
             sum_wait+=time-at[i]-bt[i]-1;
             sum_turnaround+=time-at[i];
             flag=0;
@@ -456,7 +398,5 @@ void RR(int numProcess, int quantum){
     }
     printf("\nAvg sum_wait = %.2f\n",sum_wait*1.0/n);
     printf("Avg sum_turnaround = %.2f\n",sum_turnaround*1.0/n);
-
-
 
 }
