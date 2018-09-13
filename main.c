@@ -5,7 +5,7 @@
 /*
  * This function checks that the correct amount of arguments have been passed to the program
  */
-void checkFileArg(numOfArgs){
+void checkFileArg(int numOfArgs){
     if(numOfArgs <2){
         printf("You must pass a file as a command line argument, please try again.\nFor example: ./run.sh file.txt\n");
         exit(0);
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
     checkFileArg(argc);
 
     FILE *fp;
-    char numOfProcess;
+    int numOfProcess;
 
     fp = fopen(nameOfFile, "r");
     if(fp){
@@ -155,14 +155,6 @@ int main(int argc, char *argv[]) {
         }
         // FIRST COME FIRST SERVE
         FCFS(numProcess);
-
-        struct record array[numProcess];
-        for(int i=0;i<numProcess;i++) {
-            array[i].pid = pid[i];
-            array[i].arrival = arrival[i];
-            array[i].processing = processing[i];
-            array[i].remaining = processing[i];
-        }
 
         // SHORTEST RESPONSE TIME NEXT
         SRT(numProcess);
@@ -310,14 +302,13 @@ void RR(int numProcess, int quantum){
 
     int i,n,time,remain,flag=0,ts;
     ts = quantum;
-    int sum_wait=0,sum_turnaround=0,at[10],bt[10],rt[10],pn[10];
+    int sum_wait=0,sum_turnaround=0,at[10],bt[10],rt[10];
     n = numProcess;
     remain=n;
 
     for(i=0;i<n;i++) {
-        pn[i] = i;
-        at[i] = array[i].arrival;
-        bt[i] = array[i].processing;
+        at[i] = (int)array[i].arrival;
+        bt[i] = (int)array[i].processing;
         rt[i]=bt[i];
     }
     printf("\nRR(%d)\nTime\tPID\n", quantum);
