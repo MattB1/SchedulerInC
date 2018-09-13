@@ -226,7 +226,6 @@ void FCFS(int numProcess){
     float avTurnaroundTime = 0.0;
     printf("\nFCFS\nTime\tPID\n");
 
-
     for (int i = 0; i < numProcess; i++) {
         int correct = objects[i].index;
         for (int j = 0; j < array[correct].processing; j++) {
@@ -234,8 +233,6 @@ void FCFS(int numProcess){
             time++;
             array[correct].timestarted = time  - j;
             array[correct].timefinished = time;
-
-
         }
     }
     for (int i = 0; i < numProcess;i++){
@@ -260,6 +257,7 @@ void FCFS(int numProcess){
     printf("Average turnaround time: %.2f\n", avTurnaroundTime);
 
 }
+
 
 void SRT(int numProcess) {
 
@@ -316,8 +314,8 @@ void SRT(int numProcess) {
 
 }
 
-void RR(int numProcess, int quantum){
 
+void RR(int numProcess, int quantum){
 
     struct record array[numProcess];
     for(int i=0;i<numProcess;i++) {
@@ -327,8 +325,6 @@ void RR(int numProcess, int quantum){
         array[i].remaining = processing[i];
     }
 
-
-
     struct str objects[numProcess];
     for(int i=0;i<numProcess;i++)
     {
@@ -337,8 +333,6 @@ void RR(int numProcess, int quantum){
     }
     //sort objects array according to value maybe using qsort
     qsort(objects,numProcess,sizeof(objects[0]),cmp);
-
-
 
     int i,n,time,remain,flag=0,ts;
     ts = quantum;
@@ -352,18 +346,14 @@ void RR(int numProcess, int quantum){
         bt[i] = array[i].processing;
         rt[i]=bt[i];
     }
-
     printf("\nRR(%d)\nTime\tPID\n", quantum);
     for(time=0,i=0;remain!=0;){
         if(rt[i]<=ts && rt[i]>0){
-            if(rt[i] <2) {
-                printf("%d\t%d\n", time, array[i].pid);
+            if(rt[i] < 2) {
+                printf("%d\t%li\n", time, array[i].pid);
             }else{
-                if(quantum ==2){
-                printf("%d\t%d\n%d\t%d\n", time, array[i].pid, time+1, array[i].pid);
-                }
-                if(quantum ==4){
-                printf("%d\t%d\n%d\t%d\n", time, array[i].pid, time+1, array[i].pid);
+                for(int j= 0; j<rt[i];j++){
+                    printf("%d\t%li\n", time+j, array[i].pid);
                 }
             }
             time+=rt[i];
@@ -372,19 +362,16 @@ void RR(int numProcess, int quantum){
         } else if(rt[i]>0){
             rt[i]-=ts;
             if(quantum ==2){
-                printf("%d\t%d\n%d\t%d\n", time, array[i].pid, time+1, array[i].pid);
+                printf("%d\t%li\n%d\t%li\n", time, array[i].pid, time+1, array[i].pid);
             }
             if(quantum ==4){
-                printf("%d\t%d\n%d\t%d\n", time+quantum-4, array[i].pid, time+quantum-3, array[i].pid);
-                printf("%d\t%d\n%d\t%d\n", time+quantum-2, array[i].pid, time+quantum-1, array[i].pid);
+                printf("%d\t%li\n%d\t%li\n", time+quantum-4, array[i].pid, time+quantum-3, array[i].pid);
+                printf("%d\t%li\n%d\t%li\n", time+quantum-2, array[i].pid, time+quantum-1, array[i].pid);
             }
             time+=ts;
-            //printf("%d\t%d\n%d\t%d\n", time-1, array[i].pid, time, array[i].pid);
         }
-
         if(rt[i]==0 && flag==1){
             remain--;
-            //printf("P[%d]\t|\t%d\t|\t%d\n",i+1,time-at[i],time-at[i]-bt[i]);
             sum_wait+=time-at[i]-bt[i]-1;
             sum_turnaround+=time-at[i];
             flag=0;
@@ -396,7 +383,6 @@ void RR(int numProcess, int quantum){
             i=0;
         }
     }
-    printf("\nAvg sum_wait = %.2f\n",sum_wait*1.0/n);
-    printf("Avg sum_turnaround = %.2f\n",sum_turnaround*1.0/n);
-
+    printf("Average waiting time = %.2f\n",sum_wait*1.0/n);
+    printf("Average turnaround time = %.2f\n",sum_turnaround*1.0/n);
 }
