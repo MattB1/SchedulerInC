@@ -220,7 +220,7 @@ void FCFS(int numProcess){
 
 
     }
-    printf("Average waiting time: %.2f\n", waitingTime);
+    printf("Average waiting time:\t%.2f\n", waitingTime);
 
     //calculate turnaround time (finish time - arrival time)
     for (int i = 0; i < numProcess;i++){
@@ -228,7 +228,7 @@ void FCFS(int numProcess){
         totalTurnaroundtime = turnaroundTime[i] + totalTurnaroundtime;
         avTurnaroundTime = totalTurnaroundtime/(sizeof(turnaroundTime[i])-1);
     }
-    printf("Average turnaround time: %.2f\n", avTurnaroundTime);
+    printf("Average turnaround time:\t%.2f\n", avTurnaroundTime);
 
 }
 
@@ -283,8 +283,8 @@ void SRT(int numProcess) {
         }
         printf("%d\t%d\n", times, smallest+1);
     }
-    printf("Average waiting time = %.2lf\n",avg/n);
-    printf("Average Turnaround time = %.2lf\n",tt/n);
+    printf("Average waiting time:\t%.2lf\n",avg/n);
+    printf("Average Turnaround time:\t%.2lf\n",tt/n);
 
 }
 
@@ -357,6 +357,6 @@ void RR(int numProcess, int quantum){
             i=0;
         }
     }
-    printf("Average waiting time = %.2f\n",sum_wait*1.0/n);
-    printf("Average turnaround time = %.2f\n",sum_turnaround*1.0/n);
+    printf("Average waiting time:\t%.2f\n",sum_wait*1.0/n);
+    printf("Average turnaround time:\t%.2f\n",sum_turnaround*1.0/n);
 }
